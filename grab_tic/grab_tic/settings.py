@@ -39,6 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'shows',
+    'multiselectfield',
+    'authentication',
+    'phonenumber_field',
+    'theatre',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +70,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+
+            'builtins' :['authentication.custom_tags','shows.custom_tags','theatre.custom_tags']
         },
     },
 ]
@@ -74,10 +82,21 @@ WSGI_APPLICATION = 'grab_tic.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST':config('DB_HOST'),
+        'PORT':'3306',
     }
 }
 
@@ -123,5 +142,13 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 MEDIA_URL ='/media/'
+
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+
+
+
+PHONENUMBER_DEFAULT_REGION = 'IN'
+
+AUTH_USER_MODEL = 'authentication.Profile'
